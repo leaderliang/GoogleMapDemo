@@ -18,19 +18,24 @@ package com.android.googlemapdemo;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * This shows how UI settings can be toggled.
@@ -55,6 +60,8 @@ public class UiSettingsDemoActivity extends AppCompatActivity implements OnMapRe
      */
     private boolean mLocationPermissionDenied = false;
 
+    private Button mBtImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +69,26 @@ public class UiSettingsDemoActivity extends AppCompatActivity implements OnMapRe
 
         mMyLocationButtonCheckbox = (CheckBox) findViewById(R.id.mylocationbutton_toggle);
         mMyLocationLayerCheckbox = (CheckBox) findViewById(R.id.mylocationlayer_toggle);
+        mBtImg = findViewById(R.id.bt_img);
+
+
+        mBtImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUiSettings.setMyLocationButtonEnabled(false);
+                mMap.setMyLocationEnabled(true);
+
+                Location location = mMap.getMyLocation();
+                if(location != null){
+
+                    CameraUpdate ss = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),15.0f);
+                    mMap.animateCamera(ss);
+    //                mMap.moveCamera(ss);
+                }
+
+            }
+        });
+
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

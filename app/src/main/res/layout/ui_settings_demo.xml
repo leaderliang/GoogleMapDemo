@@ -112,4 +112,13 @@
                 android:text="@string/rotate" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/bt_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自定义定位当前位置图标"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        />
 </RelativeLayout>
